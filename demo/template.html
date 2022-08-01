@@ -1,0 +1,55 @@
+<mwl-demo-utils-calendar-header [(view)]="view" [(viewDate)]="viewDate">
+</mwl-demo-utils-calendar-header>
+
+<div class="alert alert-info">
+  For details on how to customise any of the templates, please see
+  <a
+    href="https://github.com/mattlewis92/angular-calendar#how-do-i-use-a-custom-template"
+    >this guide</a
+  >
+</div>
+
+<ng-template #customCellTemplate let-day="day" let-locale="locale">
+  <div class="cal-cell-top">
+    <span class="cal-day-badge" *ngIf="day.badgeTotal > 0"
+      >{{ day.badgeTotal }} Tours</span
+    >
+    <span class="cal-day-number"
+      >{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span
+    >
+  </div>
+  <div class="cal-events">
+    <div *ngFor="let event of day.events">
+      <div class="cal-event"></div>
+      <span>{{event.start | date:'ha' | lowercase}}</span>
+      <br />
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #customTooltipTemplate let-day="day" let-locale="locale">
+  <div>{{day.event}}}}</div>
+</ng-template>
+
+<div [ngSwitch]="view">
+  <mwl-calendar-month-view
+    *ngSwitchCase="'month'"
+    [viewDate]="viewDate"
+    [events]="events"
+    [tooltipTemplate]="customTooltipTemplate"
+    [cellTemplate]="customCellTemplate"
+  >
+  </mwl-calendar-month-view>
+  <mwl-calendar-week-view
+    *ngSwitchCase="'week'"
+    [viewDate]="viewDate"
+    [events]="events"
+  >
+  </mwl-calendar-week-view>
+  <mwl-calendar-day-view
+    *ngSwitchCase="'day'"
+    [viewDate]="viewDate"
+    [events]="events"
+  >
+  </mwl-calendar-day-view>
+</div>
